@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ECG Signal Command Center</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Browser ECG Workspace</p>
+          <h1>ECG Signal Command Center</h1>
+          <p class="hero-copy">Import patient records, visualize ECG traces, and monitor synthetic or uploaded telemetry from one web dashboard.</p>
+        </div>
+        <div class="status-pill"><span></span> Monitoring</div>
+      </header>
+
+      <section class="workspace">
+        <section class="card wave-card">
+          <div class="card-head">
+            <div>
+              <p class="label">Live Trace</p>
+              <h2 id="leadTitle">Lead II - 25 mm/s - 1.00x gain</h2>
+            </div>
+            <time id="clock">--:--:--</time>
+          </div>
+          <canvas id="ecgCanvas" width="920" height="440" aria-label="ECG waveform"></canvas>
+          <div class="timeline">
+            <span>0s</span>
+            <span>2s</span>
+            <span>4s</span>
+            <span>6s</span>
+            <span>8s</span>
+          </div>
+        </section>
+
+        <aside class="side-panel">
+          <section class="metric-card green">
+            <p>Heart Rate</p>
+            <strong id="heartRate">74</strong><span>bpm</span>
+          </section>
+          <section class="metric-card blue">
+            <p>SpO2</p>
+            <strong id="spo2">98</strong><span>%</span>
+          </section>
+          <section class="metric-card amber">
+            <p>Signal Quality</p>
+            <strong id="quality">94</strong><span>%</span>
+          </section>
+
+          <section class="card controls-card">
+            <h2>Controls</h2>
+            <label>
+              Lead
+              <select id="leadSelect">
+                <option>Lead I</option>
+                <option selected>Lead II</option>
+                <option>Lead III</option>
+                <option>aVR</option>
+                <option>aVL</option>
+                <option>aVF</option>
+                <option>V1</option>
+                <option>V2</option>
+                <option>V3</option>
+                <option>V4</option>
+                <option>V5</option>
+                <option>V6</option>
+              </select>
+            </label>
+            <label>
+              Gain <span id="gainValue">1.00x</span>
+              <input id="gain" type="range" min="0.5" max="1.8" step="0.05" value="1">
+            </label>
+            <label>
+              Sweep Speed <span id="speedValue">1.00x</span>
+              <input id="speed" type="range" min="0.6" max="1.8" step="0.05" value="1">
+            </label>
+            <div class="button-row">
+              <button id="pauseButton">Pause</button>
+              <button id="resetButton" class="secondary">Reset</button>
+            </div>
+          </section>
+        </aside>
+      </section>
+
+      <section class="patient-grid">
+        <section class="card import-card">
+          <div class="card-head compact">
+            <div>
+              <p class="label">Patient Import</p>
+              <h2>Load JSON or CSV</h2>
+            </div>
+            <input id="patientFile" type="file" accept=".json,.csv,text/csv,application/json">
+          </div>
+          <p class="hint">Supported fields: name, id, age, sex, diagnosis, heartRate, spo2, signalQuality, lead, notes, and samples. CSV files can include one patient row or a samples column with comma/space separated values.</p>
+          <div class="sample-actions">
+            <button id="loadDemo" class="secondary">Load Demo Patient</button>
+            <button id="clearPatient" class="ghost">Clear Patient</button>
+          </div>
+        </section>
+
+        <section class="card patient-card">
+          <p class="label">Active Patient</p>
+          <div id="patientEmpty" class="empty-state">No patient imported yet.</div>
+          <dl id="patientDetails" class="patient-details hidden"></dl>
+        </section>
+
+        <section class="card rhythm-card">
+          <p class="label">Rhythm Readout</p>
+          <h2 id="rhythm">Normal Sinus Rhythm</h2>
+          <p id="rhythmNote">Synthetic demo signal. Imported samples replace the generated waveform.</p>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
